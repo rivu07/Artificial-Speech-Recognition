@@ -1,0 +1,7 @@
+1. keep the folder as it is, u will need the files
+2, change the proto file as required
+3. !mandatory! only mandatory change the audio files in the audio/wav directory i.e. u have to keep all the audio files in audio/wav directory
+4. change the path of julia and the model directory in HmmModel.sh
+
+The model directory is the directory you have to create for the model files.
+!mandatory! The julia directory is the bin directory of julia
