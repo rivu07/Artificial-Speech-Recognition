@@ -1,0 +1,6 @@
+1. keep the folder as it is, u will need the files
+2. only change the audio files in the audio/wav directory
+3. change the path of julia and the model directory in HmmModel.sh
+
+The model directory is the directory you have to create for the model files.
+The julia directory is the bin directory of julia
