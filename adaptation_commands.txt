@@ -1,0 +1,17 @@
+HVite -l ’*’ -o SWT -b SENT-START -b SENT-END -C config2 -a -H hmm15/macros -H hmm15/hmmdefs -i phones0test.mlf -m -t 250.0 -I wordstest.mlf -y lab -S test.scp dict tiedlist
+
+subl regtree.hed
+
+RN "models"
+LS "stats"
+RC 32 "rtree"
+
+HHEd -B -H hmm15/macros -H hmm15/hmmdefs -M hmm16 regtree.hed tiedlist
+
+HERest -C config2 -C config.global -S test.scp -I phones0test.mlf -H hmm15/macros -H hmm15/hmmdefs -K xforms mllr1 -J hmm16 -h '*/%%%%%%_*.mfc' tiedlist
+
+ HERest -C config2 -C config.global -S test.scp -I phones0test.mlf -H hmm15/macros -H hmm15/hmmdefs -J xforms mllr1 -K xforms mllr2 -J hmm16 -h '*/%%%%%%_*.mfc' tiedlist
+
+HVite -C config2 -H hmm15/macros -H hmm15/hmmdefs -S test.scp -l '*' -i recoutAdapt.mlf -w wdnet -p 0.0 -s 5.0 dictmono tiedlist
+
+HResults -I phones0test.mlf monophones0 recoutAdapt.mlf
