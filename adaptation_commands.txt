@@ -6,11 +6,50 @@ RN "models"
 LS "stats"
 RC 32 "rtree"
 
+mkdir hmm16
+
 HHEd -B -H hmm15/macros -H hmm15/hmmdefs -M hmm16 regtree.hed tiedlist
+
+cd hmm16
+
+subl global
+
+~b ``global''
+  <MMFIDMASK> *
+  <PARAMETERS> MIXBASE
+  <NUMCLASSES> 1
+    <CLASS> 1  {*.state[2-4].mix[1-12]}
+
+cd ..
+
+subl config.global
+
+where config.global has the form
+ HADAPT:TRANSKIND              = MLLRMEAN
+ HADAPT:USEBIAS                = TRUE
+ HADAPT:BASECLASS              = global
+ HADAPT:ADAPTKIND              = BASE
+ HADAPT:KEEPXFORMDISTINCT      = TRUE
+
+ HADAPT:TRACE   = 61
+ HMODEL:TRACE   = 512
+
+subl config.rc
+
+config.rc has the form
+ HADAPT:TRANSKIND              = MLLRMEAN
+ HADAPT:USEBIAS                = TRUE
+ HADAPT:REGTREE                = rtree.tree
+ HADAPT:ADAPTKIND              = TREE
+ HADAPT:SPLITTHRESH            = 1000.0
+ HADAPT:KEEPXFORMDISTINCT      = TRUE
+
+ HADAPT:TRACE   = 61
+ HMODEL:TRACE   = 512
 
 HERest -C config2 -C config.global -S test.scp -I phones0test.mlf -H hmm15/macros -H hmm15/hmmdefs -K xforms mllr1 -J hmm16 -h '*/%%%%%%_*.mfc' tiedlist
 
- HERest -C config2 -C config.global -S test.scp -I phones0test.mlf -H hmm15/macros -H hmm15/hmmdefs -J xforms mllr1 -K xforms mllr2 -J hmm16 -h '*/%%%%%%_*.mfc' tiedlist
+ HERest -C config2 -C config.rc -S test.scp -I phones0test.mlf -H hmm15/macros -H hmm15/hmmdefs -J xforms mllr1 -K xforms mllr2 -J hmm16 -h '*/%%%%%%_*.mfc' tiedlist
 
 HVite -C config2 -H hmm15/macros -H hmm15/hmmdefs -S test.scp -l '*' -i recoutAdapt.mlf -w wdnet -p 0.0 -s 5.0 dictmono tiedlist
 
